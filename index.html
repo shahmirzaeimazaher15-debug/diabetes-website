@@ -1,103 +1,1 @@
-#برای ایجاد یک بخش نظرات که کاربران بتوانند نظر خود را وارد کنند و نظرات آن‌ها در زیر سایت نمایش داده شود، معمولاً نیاز به استفاده از زبان‌های سمت سرور (مانند PHP، Node.js و ...) و پایگاه داده (مانند MySQL) داریم. اما در اینجا می‌توانیم یک رویکرد ساده‌تر با JavaScript پیاده‌سازی کنیم که نظرات را در حافظه موقتی (Local Storage) ذخیره کند تا کاربر بتواند نظراتش را اضافه کند و ببیند#.
 
-#در اینجا کد HTML به‌روز شده با قابلیت افزودن نظر کاربران به‌صورت موقت آورده شده است:#
-
-html
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-  <meta charset="UTF-8">
-  <title>والیبال: تاریخچه، قوانین و تمرینات | ابوالفضل شاهمیرزایی</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <meta name="description" content="همه چیز درباره والیبال: از تاریخچه و قوانین گرفته تا تمرینات و نکات فنی. راهنمای جامع والیبال برای علاقه‌مندان.">
-
-  <!-- فونت فارسی وزیر -->
-  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css">
-
-  <style>
-    /* استایل‌ها */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Vazir', sans-serif;
-      background: #fdfdfd;
-      color: #333;
-      line-height: 1.7;
-      padding: 15px;
-      direction: rtl;
-      max-width: 1000px;
-      margin: auto;
-    }
-    h1, h2 { text-align: center; margin: 20px 0; color: #2c3e50; }
-    p, li { font-size: 17px; margin-bottom: 10px; }
-    .comments { margin-top: 30px; border-top: 1px solid #ccc; padding-top: 15px; }
-    #commentForm { margin-top: 20px; }
-    #commentList { margin-top: 10px; }
-  </style>
-</head>
-<body>
-
-<h1>والیبال: تاریخچه، قوانین و تمرینات</h1>
-
-<h2>مقدمه</h2>
-<p>والیبال یکی از پرطرفدارترین ورزش‌ها در جهان است. این ورزش در سال 1895 توسط ویلیام جی. موریگان در ایالات متحده ایجاد شد و به سرعت محبوبیت پیدا کرد.</p>
-
-<!-- سایر مطالب... -->
-
-<h2>نظرات کاربران</h2>
-<form id="commentForm">
-  <input type="text" id="commentInput" placeholder="نظر خود را اینجا بنویسید..." required>
-  <button type="submit">ارسال نظر</button>
-</form>
-
-<div class="comments" id="commentList">
-  <h3>نظرات شما</h3>
-</div>
-
-<script>
-  const commentForm = document.getElementById('commentForm');
-  const commentInput = document.getElementById('commentInput');
-  const commentList = document.getElementById('commentList');
-
-  // Load comments from localStorage
-  function loadComments() {
-    const comments = JSON.parse(localStorage.getItem('comments')) || [];
-    comments.forEach(comment => {
-      displayComment(comment);
-    });
-  }
-
-  // Display a comment
-  function displayComment(comment) {
-    const commentElement = document.createElement('p');
-    commentElement.textContent = comment;
-    commentList.appendChild(commentElement);
-  }
-
-  // Handle comment submission
-  commentForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const comment = commentInput.value;
-    displayComment(comment);
-
-    // Store comment in localStorage
-    const comments = JSON.parse(localStorage.getItem('comments')) || [];
-    comments.push(comment);
-    localStorage.setItem('comments', JSON.stringify(comments));
-
-    commentInput.value = ''; // Clear input
-  });
-
-  // Load comments on page load
-  loadComments();
-</script>
-
-</body>
-</html>
-
-
-### توضیحات کد:
-1. **فرم نظرات**: کاربر می‌تواند نظر خود را در یک فیلد متنی وارد کند و با کلیک بر روی دکمه "ارسال نظر"، نظرش ذخیره می‌شود و صفحه به‌روزرسانی می‌شود.
-2. **ذخیره نظرات**: نظرات وارد شده در `Local Storage` ذخیره می‌شوند تا در بارگذاری مجدد صفحه نیز قابل مشاهده باشند.
-3. **نمایش نظرات**: نظرات در زیر فرم به صورت پاراگراف‌های جداگانه نمایش داده می‌شوند.
-
-با این کد، شما می‌توانید به سادگی یک بخش نظرات تعاملی راه‌اندازی کنید. برای پیاده‌سازی واقعی‌تر (و ذخیره دائمی) نیاز به پایگاه داده و زبان‌های سمت سرور دارید. اگر سوال دیگری دارید، خوشحال می‌شوم کمک کنم! 😊
